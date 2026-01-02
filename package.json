@@ -1,0 +1,25 @@
+{
+  "name": "mern-immobilien",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rali-dev/mern-immobilien.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rali-dev/mern-immobilien/issues"
+  },
+  "homepage": "https://github.com/rali-dev/mern-immobilien#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
