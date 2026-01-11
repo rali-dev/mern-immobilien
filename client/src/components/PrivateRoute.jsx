@@ -1,8 +1,17 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useAuth } from '@clerk/clerk-react';
 import { Outlet, Navigate } from 'react-router-dom';
 
 export default function PrivateRoute() {
-  const { currentUser } = useSelector((state) => state.user);
-  return currentUser ? <Outlet /> : <Navigate to="/sign-in" />;
+  const { isSignedIn, isLoaded } = useAuth();
+  
+  // While Clerk is loading, show nothing (or a loading spinner)
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+  
+  return(
+    isSignedIn ? <Outlet /> : <Navigate to="/" />
+  );
 }
+

@@ -1,26 +1,23 @@
 import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import Home from './pages/Home';
+import LandingPage from './pages/Landingpage';
 import About from './pages/About';
-import Profile from './pages/Profile';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import Dashboard from './pages/Dashboard';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
+import { ThemeProvider } from './components/theme-provider';
 
 export default function App() {
   return (
     <BrowserRouter>
         <Header />
-        <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/about" element={<About />} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/profile" element={<Profile />} />
-          </Route>
-        </Routes>
+          <Routes>
+            <Route path="/" element={<LandingPage/>} />
+            <Route path="/about" element={<About />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+          </Routes>
     </BrowserRouter>
   )
 }
