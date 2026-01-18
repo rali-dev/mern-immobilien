@@ -1,11 +1,13 @@
 import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import LandingPage from './pages/Landingpage';
-import About from './pages/About';
-import Dashboard from './pages/Dashboard';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
-import { ThemeProvider } from './components/theme-provider';
+import Onboarding from './pages/Onboarding';
+import MyProperties from './pages/myproperties';
+import Savedproperties from './pages/savedproperties';
+import ListingProperty from './pages/Listingproperty';
+import Properties from './pages/Properties';
 
 export default function App() {
   return (
@@ -13,9 +15,12 @@ export default function App() {
         <Header />
           <Routes>
             <Route path="/" element={<LandingPage/>} />
-            <Route path="/about" element={<About />} />
             <Route element={<PrivateRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/onboarding" element={<Onboarding />} />
+              <Route path="/properties" element={<Properties />} />
+              <Route path="/list-property" element={<ListingProperty />} />
+              <Route path="/my-properties" element={<MyProperties />} />
+              <Route path="/saved-properties" element={<Savedproperties />} />
             </Route>
           </Routes>
     </BrowserRouter>

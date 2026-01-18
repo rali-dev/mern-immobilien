@@ -1,17 +1,21 @@
-import React from 'react'
-import { useAuth } from '@clerk/clerk-react';
-import { Outlet, Navigate } from 'react-router-dom';
+import React from 'react';
+import { useUser } from '@clerk/clerk-react';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 
-export default function PrivateRoute() {
-  const { isSignedIn, isLoaded } = useAuth();
+const PrivateRoute = () => {
+  const { isSignedIn, user, isLoaded } = useUser();
+  const { pathname } = useLocation();
   
-  // While Clerk is loading, show nothing (or a loading spinner)
-  if (!isLoaded) {
-    return <div>Loading...</div>;
+  // Redirect to sign-in if not signed in
+  if (isLoaded && !isSignedIn && isSignedIn !== undefined) {
+    return <Navigate to="/?sign-in=true" />;
   }
   
-  return(
-    isSignedIn ? <Outlet /> : <Navigate to="/" />
-  );
+  if(user !== undefined && !user?.unsafeMetadata?.role && pathname!=='/onboarding'){
+     return <Navigate to="/onboarding" />;
+  }
+  return <Outlet />;
 }
+
+export default PrivateRoute;
 

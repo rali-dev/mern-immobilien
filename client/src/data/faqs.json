@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "How do I list my property?",
+    "content": "To list your property, simply click on 'List Your Property', fill in the required details, upload photos, and submit your listing for review."
+  },
+  {
+    "id": 2,
+    "title": "Are all listings verified?",
+    "content": "Yes, all properties on our platform are carefully verified by our team to ensure authenticity and accuracy before being published."
+  },
+  {
+    "id": 3,
+    "title": "How can I contact an agent?",
+    "content": "You can contact an agent directly through the property page by using the provided contact form or phone number."
+  },
+  {
+    "id": 4,
+    "title": "What fees are involved for sellers?",
+    "content": "Listing your property is free. However, a small commission may apply upon successful sale, which will be clearly communicated before you finalize your listing."
+  },
+  {
+    "id": 5,
+    "title": "Can I schedule a property visit?",
+    "content": "Yes, you can request a property visit by clicking the 'Schedule Visit' button on the property page and selecting your preferred date and time."
+  },
+  {
+    "id": 6,
+    "title": "How do I search for properties?",
+    "content": "Use our advanced search filters to find properties by location, price, type, and other criteria that match your needs."
+  },
+  {
+    "id": 7,
+    "title": "Is my personal data safe?",
+    "content": "We prioritize your privacy and use advanced security measures to protect your personal information on our platform."
+  },
+  {
+    "id": 8,
+    "title": "Can I save favorite properties?",
+    "content": "Yes, you can save your favorite properties by clicking the heart icon. Access your saved listings anytime from your profile."
+  }
+]

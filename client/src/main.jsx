@@ -46,6 +46,8 @@ function UserSync({ children }) {
 
 createRoot(document.getElementById('root')).render(
     <ClerkProvider 
+        fallbackRedirectUrl="/onboarding"
+        forceRedirectUrl="/onboarding"
         appearance={{
         baseTheme: shadesOfPurple,
         }}

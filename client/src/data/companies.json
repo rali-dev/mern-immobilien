@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Zillow",
+    "path": "/companies/zillow.png",
+    "id": 1
+  },
+  {
+    "name": "Realtor",
+    "path": "/companies/realtor.png",
+    "id": 2
+  },
+  {
+    "name": "Redfin",
+    "path": "/companies/redfin.png",
+    "id": 3
+  },
+  {
+    "name": "Engel & Völkers",
+    "path": "/companies/engelvoelkers.png",
+    "id": 4
+  },
+  {
+    "name": "Era",
+    "path": "/companies/eraestate.png",
+    "id": 5
+  },
+  {
+    "name": "RE/MAX",
+    "path": "/companies/remax.png",
+    "id": 6
+  }
+]
