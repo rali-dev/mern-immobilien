@@ -14,7 +14,7 @@ export async function getProperties(token, {location, company_id, searchQuery })
         query = query.eq('company_id', company_id);
     }
     if (searchQuery) {
-        query = query.ilike('title', `%${searchQuery}%`);
+        query = query.ilike('name', `%${searchQuery}%`);
     }
 
     const { data, error } = await query;

@@ -38,10 +38,10 @@ const PropertyCard = ({
   }, [savedPropery]);
   
   return (
-    <Card>
+    <Card className="flex flex-col">
       <CardHeader>
         <CardTitle className="flex justify-between font-bold">
-          {property.title}
+          {property.name}
           
           {isMyProperty && (
           <Trash2Icon
