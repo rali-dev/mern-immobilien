@@ -55,3 +55,39 @@ export async function saveProperty(token, { alreadySaved}, saveData) {
 
     return data;
 }
+
+export async function getSingleProperty(token, {property_id}) {
+    const supabase = await supabaseClient(token);
+
+     const { data, error } = await supabase
+       .from("properties")
+       .select(
+          "*, company:companies(name, logo_url), applications: applications(*)"
+       )
+       .eq("id", property_id)
+       .single();
+
+     if(error) {
+      console.error('Error Fetching Property:', error);
+      return null;
+     }
+
+     return data;
+  }
+
+  export async function updatePropertyStatus(token, {property_id}, isOpen) {
+    const supabase = await supabaseClient(token);
+
+     const { data, error } = await supabase
+       .from("properties")
+       .update({isOpen})
+       .eq("id", property_id)
+       .select();
+
+     if(error) {
+      console.error('Error Updating Property:', error);
+      return null;
+     }
+
+     return data;
+  }

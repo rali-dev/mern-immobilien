@@ -3,26 +3,38 @@ import { useUser } from '@clerk/clerk-react';
 import { BarLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import useFetch from '@/hooks/use-fetch';
+import { upsertOwner } from '@/api/apiOwners';
 
 const Onboarding = () => {
   const { user, isLoaded } = useUser();
   const navigate = useNavigate();
+  const { fn: fnUpsertOwner } = useFetch(upsertOwner);
 
   const handleRoleSelection = async(role) => {
-    await user
-    .update({ unsafeMetadata: { role } })
-    .then(() => {
-      navigate(role === 'buyer' ? '/my-properties' : '/saved-properties');
-    })
-    .catch((error) => {
+    try {
+      await user.update({ unsafeMetadata: { role } });
+
+      if (role === 'owner') {
+        await fnUpsertOwner({
+          email: user.primaryEmailAddress?.emailAddress ?? null,
+          name: user.firstName ?? null,
+          lastname: user.lastName ?? null,
+          phone: user.primaryPhoneNumber?.phoneNumber ?? null,
+          owner_id: user.id,
+        });
+      }
+
+      navigate(role === 'customer' ? '/my-properties' : '/list-property');
+    } catch (error) {
       console.error('Error updating role:', error);
-    });
+    }
   }
 
   useEffect(() => {
     if(user?.unsafeMetadata?.role){
        navigate(
-         user?.unsafeMetadata?.role === 'buyer' ? '/saved-properties' : '/saved-properties'
+         user?.unsafeMetadata?.role === 'customer' ? '/my-properties' : '/list-property'
        )
     }
   }, [user]);
@@ -39,16 +51,16 @@ const Onboarding = () => {
             <Button 
                variant='blue' 
                className="h-36 text-2xl"
-               onClick={() => handleRoleSelection('buyer')}
+               onClick={() => handleRoleSelection('customer')}
             >
                Customer
             </Button>
             <Button 
                variant='destructive' 
                className="h-36 text-2xl"
-               onClick={() => handleRoleSelection('seller')}
+               onClick={() => handleRoleSelection('owner')}
             >
-              Seller
+              Owner
             </Button>
          </div>
      </div>

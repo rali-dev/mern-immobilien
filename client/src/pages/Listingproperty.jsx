@@ -73,46 +73,46 @@ const ListingProperty = () => {
 
       <div className='flex flex-col sm:flex-row gap-2 px-10 md:px-10'>
          <div className="w-full sm:w-1/2">
-         <Select value={location} onValueChange={(value) => setLocation(value)}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Filter by location" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {State.getStatesOfCountry("DE").map(({name}) => {
-                 return( 
-                 <SelectItem key={name} value={name}>
-                    {name}
-                 </SelectItem>
-                  );
-               })}
-               
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        </div>
+                <Select value={location} onValueChange={(value) => setLocation(value)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Filter by location" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {State.getStatesOfCountry("DE").map(({name}) => {
+                        return( 
+                        <SelectItem key={name} value={name}>
+                            {name}
+                        </SelectItem>
+                          );
+                      })}
+                      
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                </div>
 
-         <div className="w-full sm:w-1/2">
-         <Select value={company_id} onValueChange={(value) => setCompany_id(value)}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Filter by company" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {companies?.map(({ id, name }) => (
-                <SelectItem key={name} value={id}>
-                  {name}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-         </Select>
-         </div>
+                <div className="w-full sm:w-1/2">
+                <Select value={company_id} onValueChange={(value) => setCompany_id(value)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Filter by company" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {companies?.map(({ id, name }) => (
+                        <SelectItem key={name} value={id}>
+                          {name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                </div>
 
-         <Button onClick={clearFilters} variant='destructive' className="sm:w-1/2">
-           Clear Filters
-        </Button>
-       </div>
+                <Button onClick={clearFilters} variant='destructive' className="sm:w-1/2">
+                  Clear Filters
+                </Button>
+           </div> 
         
       </div>
       {loadingProperties && (

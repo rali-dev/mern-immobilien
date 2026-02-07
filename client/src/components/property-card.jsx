@@ -27,7 +27,7 @@ const PropertyCard = ({
 
   const handleSaveProperty = async() => {
     await fnSavedProperty({
-      user_id: user.id,
+      customer_id: user.id,
       property_id: property.id,
     });
     onPropertySaved();

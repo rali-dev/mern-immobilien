@@ -7,7 +7,7 @@ import Onboarding from './pages/Onboarding';
 import MyProperties from './pages/myproperties';
 import Savedproperties from './pages/savedproperties';
 import ListingProperty from './pages/Listingproperty';
-import Properties from './pages/Properties';
+import PropertyPage from './pages/Property';
 
 export default function App() {
   return (
@@ -17,7 +17,7 @@ export default function App() {
             <Route path="/" element={<LandingPage/>} />
             <Route element={<PrivateRoute />}>
               <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/properties" element={<Properties />} />
+              <Route path="/property/:id" element={<PropertyPage />} />
               <Route path="/list-property" element={<ListingProperty />} />
               <Route path="/my-properties" element={<MyProperties />} />
               <Route path="/saved-properties" element={<Savedproperties />} />
