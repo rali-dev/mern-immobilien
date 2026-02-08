@@ -107,3 +107,18 @@ export async function getSingleProperty(token, {property_id}) {
 
      return data;
   }
+
+   export async function getSavedProperties(token) {
+    const supabase = await supabaseClient(token);
+
+     const { data, error } = await supabase
+       .from("saved_properties")
+       .select("*,property:properties(*, company:companies(name, logo_url))");
+
+     if(error) {
+      console.error('Error Fetching Saved Properties:', error);
+      return null;
+     }
+
+     return data;
+  }
