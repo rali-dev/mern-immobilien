@@ -122,3 +122,18 @@ export async function getSingleProperty(token, {property_id}) {
 
      return data;
   }
+
+     export async function getCreatedProperties(token, {owner_id}) {
+    const supabase = await supabaseClient(token);
+
+     const { data, error } = await supabase
+       .from("properties")
+       .select("*, company:companies(name, logo_url)")
+       .eq("owner_id", owner_id);
+     if(error) {
+      console.error('Error Fetching Properties:', error);
+      return null;
+     }
+
+     return data;
+  }
