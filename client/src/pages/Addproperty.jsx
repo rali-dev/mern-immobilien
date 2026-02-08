@@ -14,6 +14,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import MDEditor from '@uiw/react-md-editor';
 import { addNewProperty } from '@/api/apiProperties'; 
+import AddCompanyDrawer from '@/components/add-company-drawer';
 
   const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -249,6 +250,7 @@ const AddProperty = () => {
             />
 
               {/* Add company drawer */}
+              <AddCompanyDrawer fetchCompanies={fnCompanies} />
            </div>
 
            {errors.location && (
