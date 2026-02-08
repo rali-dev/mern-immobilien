@@ -91,3 +91,19 @@ export async function getSingleProperty(token, {property_id}) {
 
      return data;
   }
+
+   export async function addNewProperty(token, _ , propertyData) {
+    const supabase = await supabaseClient(token);
+
+     const { data, error } = await supabase
+       .from("properties")
+       .insert([propertyData])
+       .select();
+
+     if(error) {
+      console.error('Error Creating Property:', error);
+      return null;
+     }
+
+     return data;
+  }

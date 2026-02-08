@@ -99,7 +99,7 @@ const ListingProperty = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {companies?.map(({ id, name }) => (
+                      {companies?.map(({ name, id }) => (
                         <SelectItem key={name} value={id}>
                           {name}
                         </SelectItem>

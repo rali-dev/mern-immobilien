@@ -25,7 +25,7 @@ const Onboarding = () => {
         });
       }
 
-      navigate(role === 'customer' ? '/my-properties' : '/list-property');
+      navigate(role === 'customer' ? '/' : '/properties');
     } catch (error) {
       console.error('Error updating role:', error);
     }
@@ -34,7 +34,7 @@ const Onboarding = () => {
   useEffect(() => {
     if(user?.unsafeMetadata?.role){
        navigate(
-         user?.unsafeMetadata?.role === 'customer' ? '/my-properties' : '/list-property'
+         user?.unsafeMetadata?.role === 'customer' ? '/' : '/properties'
        )
     }
   }, [user]);

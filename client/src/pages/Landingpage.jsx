@@ -3,6 +3,7 @@ import '../LandingPage.css';
 import raliLogo from '/raliLogo.png';
 import estateLogo from '/estateLogo.png';
 import { Link } from 'react-router-dom';
+import { useUser } from '@clerk/clerk-react';
 import { Button } from '../components/ui/button';
 import companies from '../data/companies.json';
 import { Carousel, CarouselContent, CarouselItem } from '../components/ui/carousel';
@@ -17,6 +18,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '../componen
 
 export default function LandingPage() {
   const buttonSize = useResponsiveButtonSize();
+  const { user } = useUser();
+  const isOwner = user?.unsafeMetadata?.role === 'owner';
   
   return (
       <>
@@ -37,9 +40,17 @@ export default function LandingPage() {
             <Link to="/properties">
               <Button variant="blue" size={buttonSize} className="sm:size-xl" >Browse properties</Button>
             </Link>
-            <Link to="/list-property">
-              <Button variant="destructive" size={buttonSize} className="sm:size-xl" >List Your Property</Button>
-            </Link>
+            {isOwner ? (
+              <Link to="/add-property">
+                <Button variant="destructive" size={buttonSize} className="sm:size-xl">
+                  List Your Property
+                </Button>
+              </Link>
+            ) : (
+              <Button variant="destructive" size={buttonSize} className="sm:size-xl" disabled>
+                List Your Property
+              </Button>
+            )}
           </div>
 
            <Carousel

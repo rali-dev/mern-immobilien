@@ -21,9 +21,10 @@ app.use(cookieParser());
 
 app.use('/api/user', userRouter);
 app.use('/api/listing-property', listingRouter);
-app.use('/api/list-property', listingRouter);
+app.use('/api/properties', listingRouter);
 app.use('/api/my-properties', myPropertiesRouter);
 app.use('/api/saved-properties', savedPropertiesRouter);
+app.use();
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

@@ -62,7 +62,7 @@ export default function Header (){
            
             <SignedIn>
                {user?.unsafeMetadata?.role === 'owner' && (
-                <Link to="/list-property">
+                <Link to="/add-property">
                 <Button variant="destructive" className={"rounded-full"}>List a property
                     <PenBox size={20} className="mr-2" />
                 </Button>
