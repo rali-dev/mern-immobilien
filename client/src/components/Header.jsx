@@ -77,8 +77,8 @@ export default function Header (){
 
                     <DropdownMenuLabel>Quick Navigation</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate('/my-properties')}>
-                      my properties
+                    <DropdownMenuItem onClick={() => navigate('/properties')}>
+                      properties
                     </DropdownMenuItem>
                      <DropdownMenuItem onClick={() => navigate('/saved-properties')}>
                       saved properties

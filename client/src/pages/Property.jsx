@@ -1,17 +1,37 @@
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import '../LandingPage.css';
 import { useParams } from 'react-router-dom';
-import { useUser } from '@clerk/clerk-react';
+import { useUser, useAuth } from '@clerk/clerk-react';
 import { getSingleProperty, updatePropertyStatus } from '@/api/apiProperties';
-import { getOwnerById } from '@/api/apiOwners';
+import { getImagesByPropertyId } from '@/api/apiImages';
 import useFetch from '@/hooks/use-fetch';
 import { BarLoader } from 'react-spinners';
-import { BadgePercent, Bath, Bed, Car, DollarSign, DoorClosed, DoorOpen, MapPinIcon, Send, Sofa, Tag} from 'lucide-react';
+import { BadgePercent, Bath, Bed, Car, DollarSign, DoorClosed, DoorOpen, MapPin, MapPinIcon, Send, Sofa, Tag} from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const  PropertyPage = () => {
+const PropertyPage = () => {
   const { isLoaded, user } = useUser();
-  const { id } = useParams(); 
+  const { getToken } = useAuth();
+  const { id } = useParams();
+  const [images, setImages] = useState([]);
+  const [loadingImages, setLoadingImages] = useState(true);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      setLoadingImages(true);
+      try {
+        const supabaseAccessToken = await getToken({ template: "supabase" });
+        const imgs = await getImagesByPropertyId(id, supabaseAccessToken);
+        setImages(imgs || []);
+      } catch (e) {
+        setImages([]);
+      } finally {
+        setLoadingImages(false);
+      }
+    };
+    if (id && isLoaded) fetchImages();
+  }, [id, isLoaded, getToken]);
 
   const {
     fn: fnProperty,
@@ -25,10 +45,6 @@ const  PropertyPage = () => {
         property_id: id 
     });
 
-  const { fn: fnOwner, data: owner } = useFetch(getOwnerById, {
-    owner_id: property?.owner_id,
-  });
-
   const handleStatusChange = async (value) => {
     const isOpen = value === 'available';
     fnPropertyStatus(isOpen).then(() => fnProperty());
@@ -38,21 +54,14 @@ const  PropertyPage = () => {
     if(isLoaded) fnProperty();
   }, [isLoaded]);
 
-  useEffect(() => {
-    if (property?.owner_id) fnOwner();
-  }, [property?.owner_id]);
-
   if (!isLoaded || loadingProperty) {
     return (<BarLoader className="mb-4" width={"100%"} color="#36d7b7"/>)
   }
 
-  console.log("owner_id:", property?.owner_id);
-  console.log("user.id:", user?.id);
-
     return (
       <>
         <div className="grid-background"></div>
-        <div className='flex flex-col gap-8 mt-5 px-10 md:px-10'>  
+        <div className='flex flex-col gap-8 mt-5 px-10 md:px-10 pb-20'>  
           <div className='flex flex-col-reverse gap-6 md:flex-row justify-between items-center'>
             <h1 className='gradient-title font-extrabold pb-3 text-4xl sm:text-6xl'>
               {property?.name}
@@ -60,25 +69,23 @@ const  PropertyPage = () => {
             <img src={property?.company?.logo_url} className="h-12" alt={property?.name} />
           </div>
 
-
            <div className='flex justify-between'>
-
-            <div className='flex gap-2'>
-              <MapPinIcon/>
-              {property?.location}
-            </div>
-             <div className='flex gap-2'>
-              {property?.isOpen ? (
-               <>
-                 <DoorOpen/> Available
-               </>
-            ) :    (   
+              <div className='flex gap-2'>
+                <MapPinIcon/>
+                {property?.location}
+              </div>
+              <div className='flex gap-2'>
+                {property?.isOpen ? (
                 <>
-                  <DoorClosed/> Off Market
+                  <DoorOpen/> Available
                 </>
+              ) :    (   
+                  <>
+                    <DoorClosed/> Off Market
+                  </>
 
-              )}
-            </div>
+                )}
+              </div>
           </div>
 
           {/* property status : available or off market */}
@@ -147,7 +154,7 @@ const  PropertyPage = () => {
           
           <p className='sm:text-lg'>{property?.description}</p>
 
-          <div className='flex justify-between '>
+           <div className='flex justify-between '>
                 <div className='flex gap-2'>
                     <Bed /> {property?.bedrooms} Beds
                 </div>
@@ -178,36 +185,62 @@ const  PropertyPage = () => {
                     )
                   }    
                 </div>
-           </div>
-          {/* Send inquiry */}
-          {/* <div className='w-1/2 rounded-lg border bg-slate-900/30 p-4 mt-4'>
-            <div>
-              {owner?.name && (
-                <>
-                {`Name: ${owner.name}` + (owner.lastname ? ` ${owner.lastname}` : '')}
-                </>
-              )}
             </div>
-             <div>
-              {owner?.email && (
-                <>
-                {`Email: ${owner.email}`}
-                </>
-              )}
-             </div>
-          </div> */}
+            <div className='flex gap-2'>
+                {property?.address ? (
+                    <>
+                    <MapPin />  {`Location: ${property?.address}`}
+                    </>
+                  ) : (
+                    <>
+                    <MapPin /> No Address
+                    </>
+                  )
+                }    
+            </div>
+        
 
-          <img 
-             src={property?.image_url} 
-             alt={property?.name}
-             className="w-full max-h-[520px] rounded-2xl object-cover shadow-xl ring-1 ring-white/10 mb-12"
-          />
+          {/* Show all property images */}
+          {loadingImages ? (
+            <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />
+          ) : images.length > 0 ? (
+            <div className="flex flex-wrap gap-4 mb-12">
+              {images.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img.image_url}
+                  alt={property?.name || `Property image ${idx+1}`}
+                  className="w-full max-w-xs max-h-[320px] rounded-2xl object-cover shadow-xl ring-1 ring-white/10"
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="mb-12">No images available.</div>
+          )}
           <div>
             {property?.isOpen === true && (
               <>
-                <Send /> <h1 className='text-2xl font-bold mt-4'>Send inquiry</h1>
+                <div>
+                  <Send /> <h1 className='text-2xl font-bold mt-4'>Send inquiry</h1>
+                </div>
+
+                {/* Send inquiry - show owner info directly from property */}
+                <div className='w-1/2 rounded-lg border bg-slate-900/30 p-4 mt-4'>
+                  {property?.owner_email && (
+                    <div>
+                      <strong>Email:</strong> {property.owner_email}
+                    </div>
+                  )}
+                  {property?.owner_phone && (
+                    <div>
+                      <strong>Phone:</strong> {property.owner_phone}
+                    </div>
+                  )}
+
+                </div>
               </>
             )}
+ 
           </div>
         </div>
       </>

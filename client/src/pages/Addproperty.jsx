@@ -26,13 +26,13 @@ import AddCompanyDrawer from '@/components/add-company-drawer';
   bedrooms: z.number().int().positive("Bedrooms must be a positive integer"),
   furnished: z.boolean(),
   parking: z.boolean(),
-  type: z.enum(['rent', 'sale'], "Type must be either 'rent' or 'sale'"),
   isOpen: z.boolean(),
-  image_url: z.string().url("Image URL must be a valid URL"),
-  owner_id: z.string(),
-  company_id: z.string().optional(),
+  owner_id: z.string().min(1, "Owner ID is required"),
+  company_id: z.string().min(1, "Company is required"),
   location: z.string().min(1, "Location is required"),
   forSale: z.boolean(),
+  owner_email: z.string().email("Invalid email address").min(1, "Email is required"),
+  owner_phone: z.string().min(1, "Phone number is required"),
 });
 
 const AddProperty = () => {
@@ -43,13 +43,13 @@ const AddProperty = () => {
       register,
       control,
       handleSubmit,
+      reset,
       formState: { errors }
     } = useForm({
       defaultValues: {
         company_id: '',
         forSale: false,
         isOpen: true,
-        owner_id: '',
       },
       resolver: zodResolver(schema),
     });
@@ -89,7 +89,10 @@ const AddProperty = () => {
     }
 
     useEffect(() => {
-      if(dataCreateProperty?.length > 0) navigate('/properties');
+      // If property creation returns an id, redirect to upload images page
+      if (dataCreateProperty && dataCreateProperty[0]?.id) {
+        navigate(`/properties/${dataCreateProperty[0].id}/upload-images`);
+      }
     }, [dataCreateProperty])
 
     if(!isLoaded || loadingCompanies){
@@ -146,9 +149,6 @@ const AddProperty = () => {
             <Input type="number" placeholder="Bedrooms" {...register("bedrooms", { valueAsNumber: true })} />
             {errors.bedrooms && <p className="text-red-500">{errors.bedrooms.message}</p>}
 
-            <Input type="text" placeholder="Image URL" {...register("image_url")} />
-            {errors.image_url && <p className="text-red-500">{errors.image_url.message}</p>}
-
              <div className='flex gap-4'>
                 <label className='flex items-center gap-2'>
                   <input type="checkbox" {...register("furnished")} />
@@ -163,32 +163,6 @@ const AddProperty = () => {
                   For Sale
                 </label>
              </div>
-
-            {/* Type select input */}
-            <div className='flex items-center gap-4'>
-              <Controller
-                name="type"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    value={field.value ?? ''}
-                    onValueChange={field.onChange}
-                    required
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Type (rent/sale)" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="rent">Rent</SelectItem>
-                        <SelectItem value="sale">Sale</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-            </div>
-             
           
             <div className='flex items-center gap-4'>
               <Controller
@@ -249,10 +223,17 @@ const AddProperty = () => {
              )}
             />
 
-              {/* Add company drawer */}
-              <AddCompanyDrawer fetchCompanies={fnCompanies} />
+            {/* Add company drawer */}
+            <AddCompanyDrawer fetchCompanies={fnCompanies} />
            </div>
 
+
+          <Input type="email" placeholder="E-Mail" {...register("owner_email")}/>
+          {errors.owner_email && <p className="text-red-500">{errors.owner_email.message}</p>}
+          <Input type="tel" placeholder="Telefonnummer" {...register("owner_phone")}/>
+          {errors.owner_phone && <p className="text-red-500">{errors.owner_phone.message}</p>}
+
+          
            {errors.location && (
               <p className="text-red-500">{errors.location.message}</p>
             )}

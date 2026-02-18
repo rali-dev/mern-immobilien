@@ -59,10 +59,10 @@ export async function saveProperty(token, { alreadySaved}, saveData) {
 export async function getSingleProperty(token, {property_id}) {
     const supabase = await supabaseClient(token);
 
-     const { data, error } = await supabase
+      const { data, error } = await supabase
        .from("properties")
        .select(
-          "*, company:companies(name, logo_url), applications: applications(*)"
+         "*, company:companies(name, logo_url)"
        )
        .eq("id", property_id)
        .single();
