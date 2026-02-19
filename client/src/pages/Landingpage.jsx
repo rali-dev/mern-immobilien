@@ -23,7 +23,7 @@ export default function LandingPage() {
   
   return (
       <>
-        <div className="fixed left-4 top-20 z-50 bg-transparent text-slate-400 px-2 py-10 rounded shadow font-bold text-xs" style={{minWidth:'max-content'}}>
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-transparent text-slate-400 px-2 py-1 rounded shadow font-bold text-xs">
           Warning: This website is for programming learning purposes only.
         </div>
         <main className='flex flex-col gap-10 sm:gap-20 py-10 sm:py-20'>
