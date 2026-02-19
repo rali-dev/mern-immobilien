@@ -4,7 +4,7 @@ import LandingPage from './pages/Landingpage';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import Onboarding from './pages/Onboarding';
-import Savedproperties from './pages/savedproperties';
+import Savedproperties from './pages/Savedproperties';
 import ListingProperty from './pages/Listingproperty';
 import PropertyPage from './pages/Property';
 import AddProperty from './pages/Addproperty';
