@@ -3,9 +3,10 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { useUser } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import { saveProperty } from "@/api/apiProperties";
+import { deleteProperty, saveProperty } from "@/api/apiProperties";
 import { useEffect, useState } from "react";
 import useFetch from "@/hooks/use-fetch";
+import { BarLoader } from "react-spinners";
 
 const PropertyCard = ({
   property,
@@ -25,7 +26,8 @@ const PropertyCard = ({
   
   const {user} = useUser();
 
-  const handleSaveProperty = async() => {
+  const handleSaveProperty = async(e) => {
+    if (e) e.preventDefault();
     await fnSavedProperty({
       customer_id: user.id,
       property_id: property.id,
@@ -33,12 +35,24 @@ const PropertyCard = ({
     onPropertySaved();
   };
 
+  const { loading: loadingDeleteProperty, fn: fnDeleteProperty } = useFetch(deleteProperty,{
+      property_id: property.id
+  });
+
+  const handleDeleteProperty = async() => {
+    await fnDeleteProperty();
+    onPropertySaved();
+  }
+
   useEffect(() => {
     if(savedPropery !== undefined) setSaved(savedPropery?.length >0);
   }, [savedPropery]);
   
   return (
     <Card className="flex flex-col">
+       {loadingDeleteProperty && (
+         <BarLoader className="mb-4" width={"100%"} color="#36d7b7"/>
+        )}
       <CardHeader>
         <CardTitle className="flex justify-between font-bold">
           {property.name}
@@ -48,6 +62,7 @@ const PropertyCard = ({
             fill="red"
             size={18}
             className="text-red-300 cursor-pointer"
+            onClick={handleDeleteProperty}
           />
           )}
         </CardTitle>

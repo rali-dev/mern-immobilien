@@ -25,8 +25,8 @@ const SavedProperties = () => {
     return (
       <>
         <div className="grid-background"></div>
-        <div className="max-w-4xl mx-auto">
-           <h1 className='gradient-title font-extrabold text-6xl sm:text-7xl text-center pb-8'>
+        <div className="max-w-4xl mx-auto pb-10">
+           <h1 className='gradient-title font-extrabold text-6xl sm:text-7xl text-center pb-8 pt-10'>
              Saved Properties
            </h1>
 
@@ -37,7 +37,7 @@ const SavedProperties = () => {
                       return (
                       <PropertyCard
                           key={saved.id}
-                          property={saved.property}
+                          property={saved?.property}
                           savedInit={true}
                           onPropertySaved={fnSavedProperties}
                         />

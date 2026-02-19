@@ -37,7 +37,7 @@ const CreatedProperties = () => {
                  <PropertyCard 
                     key={property.id}
                     property={property}
-                    savedInit={property.saved?.length>0}
+                    onPropertySaved={fnCreatedProperties}
                     isMyProperty
                   />
                 );

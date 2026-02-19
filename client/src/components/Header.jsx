@@ -48,10 +48,7 @@ export default function Header (){
             <span className='text-slate-400'>Estate</span>
           </h1>
         </Link>
-        <form className='bg-slate-400 p-2 rounded-lg flex items-center mx-10'>
-            <input type="text" placeholder='Search...' className='bg-transparent focus:outline-none w-24 sm:w-64' />
-            <FaSearch className='text-slate-800' />
-        </form>
+       
       <div className='flex items-center gap-4'>
         
         </div>
@@ -77,11 +74,11 @@ export default function Header (){
 
                     <DropdownMenuLabel>Quick Navigation</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate('/properties')}>
-                      properties
+                    <DropdownMenuItem onClick={() => navigate('/created-properties')}>
+                      My properties
                     </DropdownMenuItem>
                      <DropdownMenuItem onClick={() => navigate('/saved-properties')}>
-                      saved properties
+                      Saved properties
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 const UploadImages = () => {
     const navigate = useNavigate();
   const { id: property_id } = useParams();
-  const { getToken } = useAuth();
+  const { getToken, userId } = useAuth();
   const [imageFiles, setImageFiles] = useState([null]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -44,7 +44,7 @@ const UploadImages = () => {
         uploadedUrls.push(publicUrlData.publicUrl);
       }
 
-      const inserts = uploadedUrls.map(url => ({ property_id: Number(property_id), image_url: url }));
+      const inserts = uploadedUrls.map(url => ({ property_id: Number(property_id), image_url: url, owner_id: userId }));
       const { error: dbError } = await supabase
         .from('images')
         .insert(inserts);
@@ -53,7 +53,7 @@ const UploadImages = () => {
       setImageFiles([null]);
 
       if (uploadedUrls.length === 5) {
-        navigate(`/property/${property_id}`);
+        navigate('/properties');
       }
 
     } catch (err) {

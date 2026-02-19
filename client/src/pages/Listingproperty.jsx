@@ -22,6 +22,11 @@ const ListingProperty = () => {
     data: properties,
     loading: loadingProperties
   } = useFetch(getProperties, { location, company_id, searchQuery: searchQuery });
+
+  // Callback to re-fetch properties after saving
+  const handlePropertySaved = () => {
+    fnProperties();
+  };
   
   const {fn: fnCompanies, data: companies} = useFetch(getCompanies);
   
@@ -120,21 +125,22 @@ const ListingProperty = () => {
       )}
 
       {loadingProperties === false && (
-        <div className='mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-10 md:px-10'>
-           {properties?.length ?(
+          <div className='mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-10 md:px-10'>
+            {properties?.length ?(
               properties.map((property) => {
-                return (
-                 <PropertyCard 
-                    key={property.id}
-                    property={property}
-                    savedInit={property.saved?.length>0}
-                  />
-                );
+               return (
+                <PropertyCard 
+                  key={property.id}
+                  property={property}
+                  savedInit={property.saved?.length>0}
+                  onPropertySaved={handlePropertySaved}
+                />
+               );
               })
-           ) : (
+            ) : (
             <div>No properties found.</div>   
-           )}
-        </div>
+            )}
+          </div>
       )}
 
       

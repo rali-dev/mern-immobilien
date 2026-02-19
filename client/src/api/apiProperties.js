@@ -123,7 +123,7 @@ export async function getSingleProperty(token, {property_id}) {
      return data;
   }
 
-     export async function getCreatedProperties(token, {owner_id}) {
+  export async function getCreatedProperties(token, {owner_id}) {
     const supabase = await supabaseClient(token);
 
      const { data, error } = await supabase
@@ -136,4 +136,21 @@ export async function getSingleProperty(token, {property_id}) {
      }
 
      return data;
+  }
+
+  export async function deleteProperty(token, {property_id}) {
+      const supabase = await supabaseClient(token);
+      
+      const { data, error } = await supabase
+        .from("properties")
+        .delete()
+        .eq("id", property_id)
+        .select();
+
+      if (error) {
+        console.error('Error Deleting Property:', error);
+        return null;
+      }
+
+      return data;
   }

@@ -50,17 +50,27 @@ const AddProperty = () => {
         company_id: '',
         forSale: false,
         isOpen: true,
+        owner_id: user?.id || '',
       },
       resolver: zodResolver(schema),
     });
 
-    // Log Zod validation errors for debugging
     useEffect(() => {
       if (Object.keys(errors).length > 0) {
         console.log('Zod validation errors:', errors);
       }
     }, [errors]);
 
+    // Ensure owner_id is set when user.id becomes available
+    useEffect(() => {
+      if (user?.id) {
+        reset((prev) => ({
+          ...prev,
+          owner_id: user.id,
+        }));
+      }
+    }, [user?.id, reset]);
+    
    const {
       fn: fnCompanies, 
       data: companies,
@@ -113,6 +123,7 @@ const AddProperty = () => {
           </h1>
         </div>
         <form className='flex flex-col gap-4 p-4 pb-0' onSubmit={handleSubmit(onSubmit)}>
+          <input type="hidden" {...register("owner_id")} value={user?.id || ''} />
             <Input placeholder="Property Name" {...register("name")} />
             {errors.name && <p className="text-red-500">{errors.name.message}</p>}
 
